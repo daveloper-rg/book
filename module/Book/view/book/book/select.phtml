@@ -1,0 +1,24 @@
+<?php
+echo $this->partial('_flightsList', array('data' => $table['departure'],'title'=>'Outbound','table_id'=>'outbound-table'));
+echo $this->partial('_flightsList', array('data' => $table['return'],'title'=>'Return','table_id'=>'return-table'));
+
+$form->setAttribute('action', $this->url('book', ['action' => 'overview']));
+$form->setAttribute('class', "form-horizontal");
+$form->prepare();
+?>
+<?php echo $this->form()->openTag($form); ?>
+    <input type="hidden" id="outbound-flight" name="outbound"/>
+    <input type="hidden" id="return-flight" name="return"/>
+    <div class="col-sm-6 col-lg-3">
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <button type="button" class="btn btn-success" id="submit">View My Reservations > </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success hide" id="go"> </button>
+<?php echo $this->form()->closeTag(); ?>
+
+<?php echo $this->partial('_alert') ?>

@@ -1,0 +1,48 @@
+<?php if(!empty($data['rows'])): ?>
+    <div class="panel panel-primary container-fluid">
+        <div class="panel-heading panel-heading-custom">
+            <div><h3 class="panel-title"><i class="fa fa-plane <?php echo $title=='Return' ? 'fa-rotate-270' : ''; ?>"></i> <?php echo $title; ?></h3></div>
+        </div>
+        <div class="panel-body">
+            <table id="<?php echo $table_id ?>" class="display flight-table" cellspacing="0" width="100%">
+                <caption align="top">
+                    <div class="panel panel-default">
+                        <div class="panel-body"><?php echo $data['title_date']; ?></div>
+                    </div></caption>
+                <thead>
+                <tr class="hide">
+                    <th>Name</th>
+                    <th>Position</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach($data['rows'] as $id=>$row): ?>
+                <tr>
+                    <td>
+                        <?php
+                            // rest service don't provide arrival time
+                            $time =  date_format(date_create_from_format('H:i:s', substr(strstr($row["datetime"],'T'),1)), 'H:i');
+                            $origin = $row["depart"]["airport"]["name"];
+                            $destiny = $row["arrival"]["airport"]["name"];
+                            $label = $title=='Return' ? 'Departure in ' . $origin : 'Arrival in ' . $destiny;
+                            $price = $row["price"];
+                            $isMinPrice = $price == $data['min_price'];
+                        ?>
+                        <input type="hidden" class="current-row" value="<?php echo $id; ?>">
+                        <strong><?php echo $this->escapeHtml($origin); ?></strong>
+                        <span><?php echo $time; ?></span> <i class="fa fa-plane fa-rotate-45" aria-hidden="true"></i> <span><?php echo $time; ?></span> <strong><?php echo $this->escapeHtml($destiny); ?></strong>
+                    </td>
+                    <td>
+                        <div class="price <?php echo $isMinPrice ? 'min-price' : '';?>">€ <?php echo $this->escapeHtml($price); ?></div>
+                        <div><i class="material-icons md-48">flight_land</i> <?php echo $label; ?></div>
+                        <?php if($row['seatsAvailable']<10): ?>
+                            <div><i class="fa fa-clock-o" aria-hidden="true"></i> Only <?php echo $row['seatsAvailable']; ?> tickets at € <?php echo $price; ?></div>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<?php endif; ?>

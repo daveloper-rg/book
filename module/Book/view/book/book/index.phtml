@@ -1,0 +1,127 @@
+<?php
+$form->setAttribute('action', $this->url('book', ['action' => 'select']));
+$form->setAttribute('class', "form-horizontal");
+$form->prepare();
+?>
+<div class="container-fluid">
+    <?php echo $this->form()->openTag($form); ?>
+        <div class="row">
+            <div class="col-sm-12 col-lg-12">
+                <h3>Choose a Flight</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-lg-12">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="btn-group" data-toggle="buttons" id="flight-type">
+                            <label class="btn btn-primary active">
+                                <input type="radio" name="trip-options" value="return" id="round-trip" autocomplete="off" checked> Round-trip
+                            </label>
+                            <label class="btn btn-primary">
+                                <input type="radio" name="trip-options" value="single" id="one-way" autocomplete="off"> One Way
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-3">
+                <div class="form-group">
+                    <div class="col-md-12">
+
+                        <select id="departure" class="form-control" name="departure">
+                            <option value="">From</option>
+                            <?php foreach($data['departures'] as $code=>$departure): ?>
+                                <option value="<?php echo $code;?>"><?php echo $data['info'][$code]['label']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-3">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <select name="arrival" id="arrival" class="form-control" disabled>
+                            <option value="">To</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-3">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="input-group date date-input">
+                            <input type="text" id="departure-date" name="departure-date" class="form-control" placeholder="Departure" readonly/>	<span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 date-picker" >
+                <div class="form-group">
+                    <div class="col-md-12"  >
+                        <div class="input-group date date-input">
+                            <input type="text" id="return-date" name="return-date" class="form-control" placeholder="Return" readonly/>	<span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-btn"><button class="btn btn-default value-control" data-action="minus" data-target="adults"><span class="glyphicon glyphicon-minus"></span></button></span>
+                            <input type="text" name="adults" value="1 Adult" class="form-control" id="adults" data-label="Adults" data-label-one="Adult" readonly>
+                            <span class="input-group-btn"><button class="btn btn-default value-control" data-action="plus" data-target="adults"><span class="glyphicon glyphicon-plus"></span></button></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-3">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-btn"><button class="btn btn-default value-control" data-action="minus" data-target="children"><span class="glyphicon glyphicon-minus"></span></button></span>
+                            <input type="text" name="children" value="0 Child" class="form-control" id="children" data-label="Children" data-label-one="Child" readonly>
+                            <span class="input-group-btn"><button class="btn btn-default value-control" data-action="plus" data-target="children"><span class="glyphicon glyphicon-plus"></span></button></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <span class="input-group-btn"><button class="btn btn-default value-control" data-action="minus" data-target="babies"><span class="glyphicon glyphicon-minus"></span></button></span>
+                            <input type="text" name="infant" value="0 Baby" class="form-control" id="babies" data-label="Babies" data-label-one="Baby" readonly>
+                            <span class="input-group-btn"><button class="btn btn-default value-control" data-action="plus" data-target="babies"><span class="glyphicon glyphicon-plus"></span></button></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <button type="button" class="btn btn-success" id="submit">Search and Book > </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success hide" id="go"> </button>
+        </div><!-- /.row this actually does not appear to be needed with the form-horizontal -->
+    <?php echo $this->form()->closeTag(); ?>
+</div><!-- /.container -->
+
+<?php echo $this->partial('_alert') ?>
+
+<script>
+    var routes = <?php echo json_encode($data["departures"]); ?>;
+    var routes_info = <?php echo json_encode($data["info"]); ?>;
+    $(document).ready(function(){
+        BookAutomation.init();
+    });
+</script>
