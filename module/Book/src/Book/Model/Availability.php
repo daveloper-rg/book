@@ -45,7 +45,7 @@ class Availability implements TableInterface{
         $departures = isset($flights['OUT']) ? $flights['OUT'] : [];
         $return = isset($flights['RET']) ? $flights['RET'] : [];
         $minPriceDeparture = !empty($departures) ? min( array_column( $flights['OUT'], 'price' ) ) : 0;
-        $minPriceReturn = !empty($return) ? min( array_column( $flights['OUT'], 'price' ) ) : 0;
+        $minPriceReturn = !empty($return) ? min( array_column( $flights['RET'], 'price' ) ) : 0;
         $departureDateFormat = date_format(date_create_from_format('Ymd', $this->selectData['departure-date']), 'l, j F Y');
         $returnDateFormat = isset($this->selectData['return-date']) ? date_format(date_create_from_format('Ymd', $this->selectData['return-date']), 'l, j F Y') : '';
 
